@@ -60,3 +60,7 @@ const generateSummaryDOM = function (inclompeteTodos) {
     return todosText
 }
 
+const generateFunction = function () {
+    console.log('noise')
+}
+
