@@ -61,6 +61,6 @@ const generateSummaryDOM = function (inclompeteTodos) {
 }
 
 const generateFunction = function () {
-    console.log('noise!')
+    console.log('noise!!')
 }
 
