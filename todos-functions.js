@@ -15,6 +15,28 @@ const saveTodos = function (todos) {
     localStorage.setItem('todos', JSON.stringify(todos))
 }
 
+// Remove todo from the array
+const removeTodo = function(id) {
+    const todoIndex = todos.findIndex(function(todo) {
+        return todo.id === id
+    })
+
+    if (todoIndex > -1) {
+        todos.splice(todoIndex, 1)
+    }
+}
+
+// change value todo.completed if checkbox changes
+const toggleTodo = function (id) {
+    const todo = todos.find(function(todo) {
+        return todo.id === id
+    })
+
+    if (todo !== undefined) {
+        todo.completed = !todo.completed
+    }
+} 
+
 // Render application todos based on filters
 const renderTodos = function (todos, filters) {
     const filteredTodos = todos.filter(function (todo) {
@@ -37,16 +59,33 @@ const renderTodos = function (todos, filters) {
 
 // Get the dom elements for a specific note
 const generateTodoDOM = function (todo) {
+    // creating all elements
     const p = document.createElement('div')
-
     const checkbox = document.createElement('input')
     const todoText = document.createElement('span')
     const button = document.createElement('button')
 
+    //checkbox
     checkbox.setAttribute('type', 'checkbox')
-    todoText.textContent = todo.text
-    button.textContent = 'x'
+    checkbox.checked = todo.completed
+    checkbox.addEventListener('change', function() {
+        toggleTodo(todo.id)
+        saveTodos(todos)
+        renderTodos(todos, filters)
+    })
 
+    //todo
+    todoText.textContent = todo.text
+
+    //button
+    button.textContent = 'x'
+    button.addEventListener('click', function() {
+        removeTodo(todo.id)
+        saveTodos(todos)
+        renderTodos(todos, filters)
+    })
+    
+    //appending to div
     p.appendChild(checkbox)
     p.appendChild(todoText)
     p.appendChild(button)
@@ -58,9 +97,5 @@ const generateSummaryDOM = function (inclompeteTodos) {
     const todosText = document.createElement('h2')
     todosText.textContent = `You have ${inclompeteTodos.length} things to do`
     return todosText
-}
-
-const generateFunction = function () {
-    console.log('noise!!')
 }
 
